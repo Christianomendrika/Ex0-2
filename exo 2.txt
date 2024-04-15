@@ -1,0 +1,33 @@
+Fonction karnaugh_minimisation(variables):
+    Si len(variables) == 0:
+        Retourner ""  # Aucune variable, expression vide
+
+    Si len(variables) == 1:
+        variable = variables[0]
+        Retourner variable  # Une seule variable, retourner la variable
+
+    # Générer la table de vérité pour les variables actuelles
+    truth_table = générer_table_de_vérité(variables)
+
+    # Vérifier s'il existe des groupes de 1's dans la table de Karnaugh
+    groups = trouver_groupes(truth_table)
+
+    Si len(groups) == 0:
+        Retourner "0"  # Aucun groupe de 1's, expression constante 0
+
+    Si len(groups) == 2^n:
+        Retourner "1"  # Tous les groupes sont des 1's, expression constante 1
+
+    # Sélectionner les groupes pour la minimisation
+    selected_groups = sélectionner_groupes(groups)
+
+    # Générer les termes simplifiés à partir des groupes sélectionnés
+    simplified_terms = []
+    Pour chaque groupe dans selected_groups:
+        term = groupe_en_terme(group, variables)
+        Ajouter term à simplified_terms
+
+    # Construire l'expression minimisée en combinant les termes simplifiés avec des opérateurs OR
+    minimized_expression = combiner_termes(simplified_terms, "OR")
+
+    Retourner minimized_expression
